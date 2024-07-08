@@ -18,13 +18,13 @@
 Clone the repository
 
 ```bash
-https://github.com/entbappy/End-to-end-Text-Summarization
+https://github.com/V27r/Text-Summarizer-Project
 ```
 
 ### STEP 01- Create a conda environment after opening the repository
 
 ```bash
-conda create -n summary python=3.8 -y
+conda create -n summary python=3.11 -y
 ```
 
 ```bash
@@ -42,17 +42,15 @@ pip install -r requirements.txt
 python app.py
 ```
 
-Now,
-
 ```bash
-open up you local host and port
+open this link in your browser http://localhost:8080/
 ```
 
 ```bash
-Author: Krish Naik
+Author: Mahaveer
 Data Scientist
-Email: krishnaik06@gmail.com
-
+Email: mahaveerr2703@gmail.com
+Credits: https://www.youtube.com/watch?v=p7V4Aa7qEpw
 ```
 
 # AWS-CICD-Deployment-with-Github-Actions
@@ -94,13 +92,11 @@ Email: krishnaik06@gmail.com
 
 ## 5. Open EC2 and Install docker in EC2 Machine:
 
-    #optinal
+    Run these commands one by one
 
     sudo apt-get update -y
 
     sudo apt-get upgrade
-
-    #required
 
     curl -fsSL https://get.docker.com -o get-docker.sh
 
