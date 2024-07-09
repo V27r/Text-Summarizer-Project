@@ -45,7 +45,7 @@ class ModelEvaluation:
 
         dataset_samsum_pt = load_from_disk(self.config.data_path)
         rouge_names = ["rouge1", "rouge2", "rougeL", "rougeLsum"]
-        rouge_metric = evaluate.load('rouge', trust_remote_code=True)
+        rouge_metric = load_metric('rouge', trust_remote_code=True)
 
         score = self.calculate_metric_on_test_ds(
             dataset_samsum_pt['test'][0:10],
