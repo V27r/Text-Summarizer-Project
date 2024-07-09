@@ -2,45 +2,69 @@
 
 ## Workflows
 
-1. Update `config/config.yaml`
-2. Update `params.yaml`
-3. Update entities
-4. Update the configuration manager in `src/config`
-5. Update the components
-6. Update the pipeline
-7. Update `main.py`
-8. Update `app.py`
+1. **Update `config/config.yaml`**:
+
+   - Modify the project's configuration settings as needed.
+
+2. **Update `params.yaml`**:
+
+   - Adjust the parameters, such as hyperparameters and settings.
+
+3. **Update entities**:
+
+   - Define and update core data structures and components.
+
+4. **Update the configuration manager in `src/config`**:
+
+   - Ensure the configuration management code correctly applies settings.
+
+5. **Update the components**:
+
+   - Implement and update project modules like data processing and models.
+
+6. **Update the pipeline**:
+
+   - Set up the sequence of steps for data processing and model training.
+
+7. **Update `main.py`**:
+
+   - Modify the main script for loading data, initializing models, and running the pipeline.
+
+8. **Update `app.py`**:
+   - Update the web application code for serving the project.
 
 ## How to Run?
 
 ### Steps:
 
-1. Clone the repository:
+1. **Clone the repository**:
 
    ```bash
    git clone https://github.com/V27r/Text-Summarizer-Project
    ```
 
-2. Create a conda environment after opening the repository:
+2. **Create a conda environment**:
 
    ```bash
    conda create -n summary python=3.11 -y
    conda activate summary
    ```
 
-3. Install the requirements:
+3. **Install the requirements**:
 
    ```bash
    pip install -r requirements.txt
    ```
 
-4. Finally, run the following command:
+4. **Run the application**:
 
    ```bash
    python app.py
    ```
 
-5. Open this link in your browser: [http://localhost:8080/](http://localhost:8080/)
+5. **Open the link in your browser**:
+
+   [http://localhost:8080/](http://localhost:8080/)
 
 ### Author Information:
 
@@ -53,25 +77,24 @@
 
 ## Steps:
 
-1. **Login to AWS Console**.
+1. **Login to AWS Console**:
 
-2. **Create IAM User for Deployment** with specific access:
+   - Log in to the AWS Management Console.
 
-   - **EC2 Access**: Virtual machine
-   - **ECR**: Elastic Container Registry to save your Docker image in AWS
+2. **Create IAM User for Deployment**:
 
-   **Enable these policies**:
+   - Create a user with `AmazonEC2ContainerRegistryFullAccess` and `AmazonEC2FullAccess` policies.
+   - Save the access key ID and secret access key.
 
-   - `AmazonEC2ContainerRegistryFullAccess`
-   - `AmazonEC2FullAccess`
+3. **Create ECR Repository**:
 
-3. **Create ECR Repository** to store/save Docker image:
+   - Open ECR and create a repository named `text-s`.
+   - Save the repository URI.
 
-   - Save the URI: `975050007284.dkr.ecr.eu-north-1.amazonaws.com/text-s`
+4. **Create EC2 Machine (Ubuntu)**:
 
-4. **Create EC2 Machine** (Ubuntu):
-
-   - Open EC2 and install Docker on the EC2 machine by running the following commands one by one:
+   - Launch an Ubuntu EC2 instance.
+   - Connect via SSH and install Docker with the following commands:
 
      ```bash
      sudo apt-get update -y
@@ -84,23 +107,39 @@
 
 5. **Configure EC2 as a Self-Hosted Runner**:
 
-   - Go to GitHub `Settings > Actions > Runners > New Self-Hosted Runner`
-   - Choose the OS and run the commands provided one by one
+   - Go to GitHub `Settings > Actions > Runners > New Self-Hosted Runner`.
+   - Follow the provided commands to set up the runner on your EC2 instance.
 
 6. **Set Up GitHub Secrets**:
 
-   - `AWS_ACCESS_KEY_ID`= 128379asjhd1290
-   - `AWS_SECRET_ACCESS_KEY`= ajshd891246-29014sahjk
-   - `AWS_REGION` = us-east-1
-   - `AWS_ECR_LOGIN_URI` = `566373416292.dkr.ecr.ap-south-1.amazonaws.com`
-   - `ECR_REPOSITORY_NAME` = simple-app
+   - In your GitHub repository, go to `Settings > Secrets and variables > Actions > New repository secret`.
+   - Add the following secrets:
+
+     - `AWS_ACCESS_KEY_ID` = your-aws-access-key-id
+     - `AWS_SECRET_ACCESS_KEY` = your-aws-secret-access-key
+     - `AWS_REGION` = your-aws-region
+     - `AWS_ECR_LOGIN_URI` = your-ecr-login-uri
+     - `ECR_REPOSITORY_NAME` = text-s
 
 ## Deployment Description:
 
-1. Build the Docker image of the source code.
-2. Push your Docker image to ECR.
-3. Launch your EC2 instance.
-4. Pull your image from ECR in EC2.
-5. Launch your Docker image in EC2.
+1. **Build Docker Image**:
+
+   - Use GitHub Actions to build the Docker image of your source code.
+
+2. **Push Docker Image to ECR**:
+
+   - Push the built image to your ECR repository.
+
+3. **Launch EC2 Instance**:
+
+   - Ensure your EC2 instance is running as a self-hosted runner.
+
+4. **Pull Docker Image from ECR in EC2**:
+
+   - Pull the Docker image from your ECR repository on the EC2 instance.
+
+5. **Launch Docker Container in EC2**:
+   - Run the Docker container on your EC2 instance using `docker run`.
 
 By following these steps, you can deploy your Text Summarizer Project using AWS and GitHub Actions for CI/CD.
