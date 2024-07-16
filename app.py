@@ -1,35 +1,28 @@
-from fastapi import FastAPI
-import uvicorn
-import os
+from fastapi import FastAPI, Form, Request
+from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
-from starlette.responses import RedirectResponse
-from fastapi.responses import Response
+from fastapi.staticfiles import StaticFiles
+import uvicorn
 from textSummarizer.pipeline.prediction import PredictionPipeline
 
-text: str = "What is Text Summarization?"
-
 app = FastAPI()
+obj = PredictionPipeline()
 
-@app.get("/", tags=["authentication"])
-async def index():
-    return RedirectResponse(url="/docs")
+# Setting up templates directory
+templates = Jinja2Templates(directory="templates")
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
-@app.get("/train")
-async def training():
+@app.get("/", response_class=HTMLResponse)
+async def index(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
+
+@app.post("/predict", response_class=HTMLResponse)
+async def predict(request: Request, text: str = Form(...)):
     try:
-        os.system("python main.py")
-        return Response("Training successful !!")
-    except Exception as e:
-        return Response(f"Error Occurred! {e}")
-
-@app.post("/predict")
-async def predict_route(text: str):
-    try:
-        obj = PredictionPipeline()
         summary = obj.predict(text)
-        return summary
+        return templates.TemplateResponse("index.html", {"request": request, "summary": summary, "text": text})
     except Exception as e:
-        raise e
+        return templates.TemplateResponse("index.html", {"request": request, "error": str(e)})
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8080)
